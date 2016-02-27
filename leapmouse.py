@@ -2,7 +2,7 @@ import Leap, sys, thread, time, win32api, win32con, math
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 from win32api import GetSystemMetrics
 
-class mouse:
+class Mouse:
 	SCREEN_W = 0
 	SCREEN_H = 0
 	def __init__(self):
@@ -32,7 +32,7 @@ class mouse:
 	def rightRelease(self,x,y):
 		win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP,x,y,0,0)
 
-cursor = mouse()
+cursor = Mouse()
 
 class LeapMotionListener(Leap.Listener):
 	finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
@@ -62,6 +62,7 @@ class LeapMotionListener(Leap.Listener):
 		for hand in frame.hands:
 			handType = "Left Hand" if hand.is_left else "Right Hand"
 			print handType + "Hand ID: " + str(hand.id) + "Palm position" + str(hand.palm_position)
+			
 			cursor.move(hand.palm_position.x,hand.palm_position.y,hand.grab_strength)
 			
 
@@ -78,7 +79,7 @@ def main():
 	except KeyboardInterrupt:
 		pass
 	finally:
-		controller.remove_listner(listner)
+		controller.remove_listener(listener)
 
 if __name__ == "__main__":
 	main()

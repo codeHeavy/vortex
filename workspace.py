@@ -2,7 +2,7 @@ from __future__ import division, print_function
 from visual import  *
 import visual as vs   # for 3D panel 
 import wx   # for widgets
-#module for sphere
+
 print("""
 Right button drag or Ctrl-drag to rotate "camera" to view scene.
 Middle button or Alt-drag to drag up or down to zoom in or out.
@@ -38,8 +38,7 @@ def drawGrid( posn=(0,0,0), sq=1, H=12, W = 1, normal='z', colour= clr.white ) :
             vs.curve( pos=[(posn[1]+i, posn[0], posn[2]+wd),(posn[1]+i, posn[0], posn[2])], color=colour)
             #print (posn[0] + posn[1]+i + posn[2]+wd) #for testing purposes
         else: vs.curve( pos=[(posn[0],    posn[1], posn[2]+i),
-                                           (posn[0]+wd, posn[1], posn[2]+i)], color=colour)
-    
+                                           (posn[0]+wd, posn[1], posn[2]+i)], color=colour)   
 drawGrid( normal = 'z', posn= (-6, 0, -6), colour = clr.blue,   W = 12 )
 drawGrid( normal = 'x', posn= (0, -6, -6), colour = clr.green,  W = 12 )
 ball = sphere (color = color.blue, radius = 1.1, make_trail=True, retain=200,pos=(0,0,0))
