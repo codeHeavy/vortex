@@ -63,7 +63,7 @@ class LeapMotionListener(Leap.Listener):
 			handType = "Left Hand" if hand.is_left else "Right Hand"
 			print handType + "Hand ID: " + str(hand.id) + "Palm position" + str(hand.palm_position)
 			
-			cursor.move(hand.palm_position.x,hand.palm_position.y,hand.grab_strength)
+			cursor.move(hand.stabilized_palm_position.x,hand.stabilized_palm_position.y,hand.grab_strength)
 			
 
 def main():
