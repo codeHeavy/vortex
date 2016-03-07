@@ -25,13 +25,14 @@ class LeapMotionListener(Leap.Listener):
 
 	def on_frame(self, controller):
 		frame = controller.frame()
-		print "Frame ID: " + str(frame.id) + "Timestamp: " + str(frame.timestamp) + "No: of hands " + str(len(frame.hands)) + " No: of fingers " + str(len(frame.fingers)) + "No of Tools " + str(len(frame.tools)) + "No: of gestures" + str(len(frame.gestures()))
+		'''print "Frame ID: " + str(frame.id) + "Timestamp: " + str(frame.timestamp) + "No: of hands " + str(len(frame.hands)) + " No: of fingers " + str(len(frame.fingers)) + "No of Tools " + str(len(frame.tools)) + "No: of gestures" + str(len(frame.gestures()))
 		'''
 		for hand in frame.hands:
 			handType = "Left Hand" if hand.is_left else "Right Hand"
 			print handType + "Hand ID: " + str(hand.id) + "Palm position" + str(hand.palm_position)
 			normal = hand.palm_normal
 			direction = hand.direction
+			'''
 
 			print "Pitch: " + str(direction.pitch * Leap.RAD_TO_DEG) + "Roll: " + str(normal.roll * Leap.RAD_TO_DEG) + "Yaw: " + str(direction.yaw * Leap.RAD_TO_DEG)
 
