@@ -5,6 +5,34 @@ from Tkinter import *
 from workspace import *
 from visual import *
 
+class mouse_position_smoother(object):
+    def __init__(self, smooth_aggressiveness, smooth_falloff):
+        #Input validation
+        if smooth_aggressiveness < 1:
+            raise Exception("Smooth aggressiveness must be greater than 1.")
+        if smooth_falloff < 1:
+            raise Exception("Smooth falloff must be greater than 1.0.")
+        self.previous_positions = []
+        self.smooth_falloff = smooth_falloff
+        self.smooth_aggressiveness = int(smooth_aggressiveness)
+    def update(self, (x,y)):
+        self.previous_positions.append((x,y))
+        if len(self.previous_positions) > self.smooth_aggressiveness:
+            del self.previous_positions[0]
+        return self.get_current_smooth_value()
+    def get_current_smooth_value(self):
+        smooth_x = 0
+        smooth_y = 0
+        total_weight = 0
+        num_positions = len(self.previous_positions)
+        for position in range(0, num_positions):
+            weight = 1 / (self.smooth_falloff ** (num_positions - position))
+            total_weight += weight
+            smooth_x += self.previous_positions[position][0] * weight
+            smooth_y += self.previous_positions[position][1] * weight
+        smooth_x /= total_weight
+        smooth_y /= total_weight
+        return smooth_x, smooth_y
 
 class Mouse:
 	SCREEN_W = 0
@@ -12,15 +40,17 @@ class Mouse:
 	def __init__(self):
 		self.SCREEN_W = GetSystemMetrics(0)
 		self.SCREEN_H = GetSystemMetrics(1)
+		self.mouse_position_smoother = mouse_position_smoother(smooth_aggressiveness = 8, smooth_falloff = 1.3)
 
 	def move(self,x,y,fist):
+		x,y = self.mouse_position_smoother.update((x,y))
 		x = 10*int(x)
 		if x > self.SCREEN_W :
 			x = self.SCREEN_W
 		y = 5*((self.SCREEN_H/2)-int(y))
 		if y > self.SCREEN_H :
 			y = self.SCREEN_H
-		win32api.SetCursorPos((x,y))
+		win32api.SetCursorPos((int(x),int(y)))
 		if int(fist) == 1:
 			self.leftClick(x,y)
 		elif int(fist) <= 1:
