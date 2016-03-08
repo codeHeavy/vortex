@@ -95,16 +95,14 @@ class LeapMotionListener(Leap.Listener):
 					cursor.move(hand.stabilized_palm_position.x,hand.stabilized_palm_position.y,hand.grab_strength)
 					#print "Key Tap ID: " + str(gesture.id) + "State : " + str(gesture.state) + "Position: " + str(keytap.position) + "Direction: " + str(keytap.direction)
 
-def test():
-	print "sdf"
 
 def main():
 	listener = LeapMotionListener()
 	controller = Leap.Controller()
 	controller.add_listener(listener)
-	
+		
 	scene = Workspace()
-	scene.renderWorkspace().pack()	
+	#scene.renderWorkspace().pack()
 
 	print "Press enter to quit"
 	try:
@@ -113,6 +111,8 @@ def main():
 		pass
 	finally:
 		controller.remove_listener(listener)
-	
+
 if __name__ == "__main__":
-	main()
+	#main()
+	th1 = threading.Thread(target = main(), arg = ())
+	th1.start()

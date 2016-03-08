@@ -2,16 +2,21 @@ from __future__ import division, print_function
 from visual import  *
 import visual as vs   # for 3D panel 
 import wx, sys   # for widgets
+import threading
+#from leapmouse import *
 clr = vs.color
+
 class Workspace:
   def __init__(self):
-    win = vs.window(width=1024, height=720, menus=False, title='SIMULATE VPYTHON GUI')# make a main window. Also sets w.panel to addr of wx window object.
-    scene = vs.display( window=win, width=800, height=720, forward=-vs.vector(1,1,2))# make a 3D panel
-    vss = scene
+    win = window(width=1024, height=720, menus=False, title='SIMULATE VPYTHON GUI')# make a main window. Also sets w.panel to addr of wx window object.
+    scene = display( window=win, width=800, height=720, forward=-vs.vector(1,1,2))# make a 3D panel
+    #vss = scene
     p = win.panel
     sphere_button = wx.Button(p, label='Sphere', pos=(810,10), size=(190,100))
-    #sphere_button.Bind(wx.EVT_BUTTON, self.options())
+    sphere_button.Bind(wx.EVT_BUTTON, createSphere)
     cube_button = wx.Button(p, label='Cube', pos=(810,120), size=(190,100))
+    th2 = threading.Thread(target = self.renderWorkspace(), arg = ())
+    th2.start()
     #cube_button.Bind(wx.EVT_BUTTON, functionname)
   # Draw 3D model ======================
 
@@ -41,14 +46,21 @@ class Workspace:
     self.drawGrid( normal = 'x', posn= (0, -6, -6), colour = clr.green,  W = 12 )
     #ball = sphere (color = color.blue, radius = 1.1, make_trail=True, retain=200,pos=(0,0,0))
 
-  def options(self):
+def createSphere(self):
     sphere()
-    print("her")
+    print("Sphere Created")
     pass
-
+'''
 def main():
   scene1 = Workspace()
-  scene1.renderWorkspace()
+  win = window(width=1024, height=720, menus=False, title='SIMULATE VPYTHON GUI')# make a main window. Also sets w.panel to addr of wx window object.
+  scene = display( window=win, width=800, height=720, forward=-vs.vector(1,1,2))# make a 3D panel
+  p = win.panel
+  sphere_button = wx.Button(p, label='Sphere', pos=(810,10), size=(190,100))
+  sphere_button.Bind(wx.EVT_BUTTON, options)
+  scene1.renderWorkspace().pack()
+  obj = MainClass()
+  obj.main()
 
 if __name__ == "__main__":
-  main()
+  main()'''
